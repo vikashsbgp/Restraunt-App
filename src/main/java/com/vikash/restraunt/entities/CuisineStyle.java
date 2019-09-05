@@ -14,4 +14,9 @@ public class CuisineStyle {
 		this.cstyle = cstyle;
 	}
 
+	@Override
+	public String toString() {
+		return "CuisineStyle [cstyle=" + cstyle + "]";
+	}
+
 }

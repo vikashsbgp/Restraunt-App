@@ -1,5 +1,7 @@
 package com.vikash.restraunt.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,8 @@ import com.vikash.restraunt.repos.UserRepository;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
 
 	@Autowired
 	private UserPrincipalDetailsService userPrincipalDetailsService;
@@ -30,11 +34,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		LOGGER.info("Inside configure method having AuthenticationManagerBuilder as a parameter");
 		auth.authenticationProvider(authenticationProvider());
 	}
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
+		
+		LOGGER.info("Inside configure method having HttpSecurity as parameter");
 
 		http
 				.csrf().disable()

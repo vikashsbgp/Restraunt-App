@@ -2,6 +2,8 @@ package com.vikash.restraunt.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import com.vikash.restraunt.repos.UserRepository;
 @RequestMapping("/users")
 public class UserController {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+	
 	@Autowired
 	UserRepository userRepository;
 	
@@ -27,6 +31,7 @@ public class UserController {
 	@PostMapping("/create")
 	public User createUsers(@RequestBody User user) {
 		
+		LOGGER.info("Inside createUsers Method with parameter " + user);
 		user.setPassword(encoder.encode(user.getPassword()));
 		User response = userRepository.save(user);
 		return response;
@@ -36,6 +41,8 @@ public class UserController {
 
 	@GetMapping("/allUsers")
 	public List<User> allUsers() {
+		
+		LOGGER.info("Inside allUsers method");
 		return userRepository.findAll();
 	}
 

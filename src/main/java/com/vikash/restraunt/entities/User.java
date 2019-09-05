@@ -1,9 +1,10 @@
 package com.vikash.restraunt.entities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Users")
@@ -119,6 +120,13 @@ public class User {
 		else
 			return new ArrayList<>();
 
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
+				+ ", email=" + email + ", mobile=" + mobile + ", roles=" + roles + ", active=" + active
+				+ ", permissions=" + permissions + "]";
 	}
 
 }

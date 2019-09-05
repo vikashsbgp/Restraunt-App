@@ -17,7 +17,12 @@ public class LoginViewModel {
         return password;
     }
 
-    public void setPassword(String password) {
+    @Override
+	public String toString() {
+		return "LoginViewModel [username=" + username + ", password=" + password + "]";
+	}
+
+	public void setPassword(String password) {
         this.password = password;
     }
 }
