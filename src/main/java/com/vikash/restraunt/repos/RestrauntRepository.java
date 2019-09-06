@@ -1,6 +1,7 @@
 package com.vikash.restraunt.repos;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RestrauntRepository extends MongoRepository<Restraunt, Integer> {
 	
-	Restraunt findByName(String name);
+	Optional<Restraunt> findByName(String name);
 	
 	List<Restraunt> findByCity(String city);
 	
