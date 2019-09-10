@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.vikash.restraunt.library.ResponseLibrary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,15 @@ public class RestrauntRestController {
 
 	@PostMapping("/create")
 	@ResponseBody
-	public Restraunt createRestraunt(@RequestBody Restraunt restraunt) {
+	public ResponseLibrary createRestraunt(@RequestBody Restraunt restraunt) {
 		
 		LOGGER.info("Creating restraunt of the following fields " + restraunt);
-		Restraunt response = restrauntRepository.save(restraunt);
+		ResponseLibrary response = new ResponseLibrary();
+		response.setError(null);
+		response.setMessage("Restraunt Created Successfully");
+		response.setStatus(200);
+		//Restraunt result = restrauntRepository.save(restraunt);
+		response.setData(restrauntRepository.save(restraunt));
 		return response;
 
 	}
@@ -45,7 +51,12 @@ public class RestrauntRestController {
 	@DeleteMapping("/delete")
 	@ResponseBody
 	public String deleteRestraunt(@RequestParam("id") int id) {
-		
+
+		ResponseLibrary response = new ResponseLibrary();
+		response.setError(null);
+		response.setMessage("Restraunt deleted Successfully");
+		response.setStatus(200);
+		response.setData(null);
 		Optional<Restraunt> restraunt = restrauntRepository.findById(id);
 		if (!restraunt.isPresent()) {
 			LOGGER.error("Id not found id: " + id);
@@ -60,43 +71,59 @@ public class RestrauntRestController {
 
 	@GetMapping("/getAll")
 	@ResponseBody
-	public List<Restraunt> getAllRestraunt() {
+	public ResponseLibrary getAllRestraunt() {
 		LOGGER.info("Get all the restraunt");
-		List<Restraunt> restraunts = restrauntRepository.findAll();
-		return restraunts;
+		ResponseLibrary response = new ResponseLibrary();
+		response.setError(null);
+		response.setMessage("Restraunts Available");
+		response.setStatus(200);
+		//List<Restraunt> restraunts = restrauntRepository.findAll();
+		response.setData(restrauntRepository.findAll());
+		return response;
 	}
 
 	@GetMapping("/name/{name}")
 	@ResponseBody
-	public Optional<Restraunt> searchByName(@PathVariable("name") String name) {
+	public ResponseLibrary searchByName(@PathVariable("name") String name) {
 		
 		LOGGER.info("Search restraunt by restraunt name " + name);
+		ResponseLibrary response = new ResponseLibrary();
+		response.setError(null);
+		response.setMessage("Restraunt Found");
+		response.setStatus(200);
+		response.setData(restrauntRepository.findByName(name));
 		Optional<Restraunt> restraunt = restrauntRepository.findByName(name);
 		if (!restraunt.isPresent()) {
 			LOGGER.error("Name not found name: " + name);
 			throw new RestrauntNotFoundException("Name not found name: " + name);
 		}
-		return restraunt;
+		return response;
 	}
 
 	@GetMapping("/city/{city}")
 	@ResponseBody
-	public List<Restraunt> searchByCity(@PathVariable("city") String city) {
+	public ResponseLibrary searchByCity(@PathVariable("city") String city) {
 
 		LOGGER.info("Search restraunt by restraunt city " + city);
+		ResponseLibrary response = new ResponseLibrary();
+		response.setError(null);
+		response.setMessage("Restraunt Found");
+		response.setStatus(200);
+		response.setData(restrauntRepository.findByCity(city));
 		List<Restraunt> restraunts = restrauntRepository.findByCity(city);
 		if (restraunts.size() == 0) {
 			LOGGER.info("No data restraunt present in " + city);
 			throw new RestrauntNotFoundException("No data restraunt present in " + city);
 		}
-		return restraunts;
+		return response;
 	}
 
 	@GetMapping("/sort/ranking")
 	@ResponseBody
-	public List<Restraunt> sortByRanking() {
+	public ResponseLibrary sortByRanking() {
 		
 		LOGGER.info("Sort restraunt by restraunt ranking");
+
 		List<Restraunt> restraunts = restrauntRepository.findAll();
 
 		Comparator<Restraunt> compareByRanking = new Comparator<Restraunt>() {
@@ -107,12 +134,17 @@ public class RestrauntRestController {
 			}
 		};
 		Collections.sort(restraunts, compareByRanking);
-		return restraunts;
+		ResponseLibrary response = new ResponseLibrary();
+		response.setError(null);
+		response.setMessage("Restraunt in sorted order");
+		response.setStatus(200);
+		response.setData(restraunts);
+		return response;
 	}
 
 	@GetMapping("/sort/rating")
 	@ResponseBody
-	public List<Restraunt> sortByRating() {
+	public ResponseLibrary sortByRating() {
 		
 		LOGGER.info("Sort restraunt by restraunt rating");
 		List<Restraunt> restraunts = restrauntRepository.findAll();
@@ -125,12 +157,17 @@ public class RestrauntRestController {
 			}
 		};
 		Collections.sort(restraunts, compareByRating);
-		return restraunts;
+		ResponseLibrary response = new ResponseLibrary();
+		response.setError(null);
+		response.setMessage("Restraunt in sorted order");
+		response.setStatus(200);
+		response.setData(restraunts);
+		return response;
 	}
 
 	@PostMapping("/filter/style")
 	@ResponseBody
-	public Set<Restraunt> filterByStyle(@RequestBody CuisineStyle style) {
+	public ResponseLibrary filterByStyle(@RequestBody CuisineStyle style) {
 		
 		LOGGER.info("Filter Cuisine Style of restraunt " + style);
 		List<String> styles = style.getCstyle();
@@ -154,8 +191,14 @@ public class RestrauntRestController {
 			LOGGER.info("No data restraunt serve " + style + " style");
 			throw new RestrauntNotFoundException("No data restraunt serve " + style + " style");
 		}
+
+		ResponseLibrary response = new ResponseLibrary();
+		response.setError(null);
+		response.setMessage("Restraunts Found");
+		response.setStatus(200);
+		response.setData(results);
 		
-		return results;
+		return response;
 	}
 
 }
