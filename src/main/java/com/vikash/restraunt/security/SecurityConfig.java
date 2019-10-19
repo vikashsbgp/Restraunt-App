@@ -13,13 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.vikash.restraunt.repos.UserRepository;
 
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
@@ -79,20 +75,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	}
 	
-	@Bean
-    public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()                 
-                .apis(RequestHandlerSelectors.basePackage("com.vikash.restraunt"))
-                
-                .build();
-    }
-	
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	       registry.addResourceHandler("swagger-ui.html")
-	       .addResourceLocations("classpath:/META-INF/resources/");
-
-	       registry.addResourceHandler("/webjars/**")
-	       .addResourceLocations("classpath:/META-INF/resources/webjars/");
-	   }
 }
