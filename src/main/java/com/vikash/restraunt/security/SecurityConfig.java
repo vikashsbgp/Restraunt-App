@@ -12,15 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.vikash.restraunt.exception.handling.CustomAuthenticationFailureHandler;
 import com.vikash.restraunt.repos.UserRepository;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableWebSecurity
-@EnableSwagger2
 @EnableWebMvc
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
@@ -55,13 +55,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 				.addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userRepository))
 				.authorizeRequests()
-				.antMatchers("/users/signup")
+				.antMatchers("/users/*")
 				.permitAll()
 				.antMatchers("/create", "/delete")
 				.hasRole("ADMIN")
 				.anyRequest()
-				.authenticated();
-				
+				.authenticated()
+				.and()
+				.exceptionHandling()
+				.accessDeniedHandler(customAuthenticationFailureHandler());
 
 	}
 
@@ -74,5 +76,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return daoAuthenticationProvider;
 
 	}
+	
+	@Bean
+    public AccessDeniedHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
 	
 }

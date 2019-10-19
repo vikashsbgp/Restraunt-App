@@ -55,7 +55,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         //Authenticate user
         LOGGER.info("Authenticating User");
         Authentication auth = authenticationManager.authenticate(authenticationToken);
-
+        
         return auth;
 
     }
@@ -64,7 +64,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
     	
         UserPrincipal principal = (UserPrincipal) authResult.getPrincipal();
-        
+        ObjectMapper mapper = new ObjectMapper();
         LOGGER.info("Successfully authenticating user " + principal.getUsername());
         String token = JWT.create()
                 .withSubject(principal.getUsername())
@@ -73,6 +73,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         
         LOGGER.info("Sending the access token in response header");
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
-
+        response.getWriter().write(mapper.writeValueAsString("Authorization:" + JwtProperties.TOKEN_PREFIX + token));
     }
 }

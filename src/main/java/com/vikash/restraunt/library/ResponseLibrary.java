@@ -1,19 +1,17 @@
 package com.vikash.restraunt.library;
 
-import java.util.List;
-
 public class ResponseLibrary {
 
-    private Exception error;
+    private boolean error;
     private String message;
     private int status;
     private Object data;
 
-    public Exception getError() {
+    public boolean getError() {
         return error;
     }
 
-    public void setError(Exception error) {
+    public void setError(boolean error) {
         this.error = error;
     }
 
@@ -40,4 +38,10 @@ public class ResponseLibrary {
     public void setData(Object data) {
         this.data = data;
     }
+
+	@Override
+	public String toString() {
+		return "ResponseLibrary [error=" + error + ", message=" + message + ", status=" + status + ", data=" + data
+				+ "]";
+	}
 }

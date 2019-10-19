@@ -39,7 +39,7 @@ public class RestrauntRestController {
 		
 		LOGGER.info("Creating restraunt of the following fields " + restraunt);
 		ResponseLibrary response = new ResponseLibrary();
-		response.setError(null);
+		response.setError(false);
 		response.setMessage("Restraunt Created Successfully");
 		response.setStatus(200);
 		//Restraunt result = restrauntRepository.save(restraunt);
@@ -53,7 +53,7 @@ public class RestrauntRestController {
 	public String deleteRestraunt(@RequestParam("id") int id) {
 
 		ResponseLibrary response = new ResponseLibrary();
-		response.setError(null);
+		response.setError(false);
 		response.setMessage("Restraunt deleted Successfully");
 		response.setStatus(200);
 		response.setData(null);
@@ -74,7 +74,7 @@ public class RestrauntRestController {
 	public ResponseLibrary getAllRestraunt() {
 		LOGGER.info("Get all the restraunt");
 		ResponseLibrary response = new ResponseLibrary();
-		response.setError(null);
+		response.setError(false);
 		response.setMessage("Restraunts Available");
 		response.setStatus(200);
 		//List<Restraunt> restraunts = restrauntRepository.findAll();
@@ -88,7 +88,7 @@ public class RestrauntRestController {
 		
 		LOGGER.info("Search restraunt by restraunt name " + name);
 		ResponseLibrary response = new ResponseLibrary();
-		response.setError(null);
+		response.setError(false);
 		response.setMessage("Restraunt Found");
 		response.setStatus(200);
 		response.setData(restrauntRepository.findByName(name));
@@ -106,7 +106,7 @@ public class RestrauntRestController {
 
 		LOGGER.info("Search restraunt by restraunt city " + city);
 		ResponseLibrary response = new ResponseLibrary();
-		response.setError(null);
+		response.setError(false);
 		response.setMessage("Restraunt Found");
 		response.setStatus(200);
 		response.setData(restrauntRepository.findByCity(city));
@@ -135,7 +135,7 @@ public class RestrauntRestController {
 		};
 		Collections.sort(restraunts, compareByRanking);
 		ResponseLibrary response = new ResponseLibrary();
-		response.setError(null);
+		response.setError(false);
 		response.setMessage("Restraunt in sorted order");
 		response.setStatus(200);
 		response.setData(restraunts);
@@ -158,7 +158,7 @@ public class RestrauntRestController {
 		};
 		Collections.sort(restraunts, compareByRating);
 		ResponseLibrary response = new ResponseLibrary();
-		response.setError(null);
+		response.setError(false);
 		response.setMessage("Restraunt in sorted order");
 		response.setStatus(200);
 		response.setData(restraunts);
@@ -193,7 +193,7 @@ public class RestrauntRestController {
 		}
 
 		ResponseLibrary response = new ResponseLibrary();
-		response.setError(null);
+		response.setError(false);
 		response.setMessage("Restraunts Found");
 		response.setStatus(200);
 		response.setData(results);
